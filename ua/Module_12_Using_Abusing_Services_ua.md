@@ -30,6 +30,7 @@
 **За допомогою `service`:**
 
 ```bash
+# 🐧 Debian/Kali
 service apache2 start
 service apache2 stop
 service apache2 restart
@@ -44,6 +45,13 @@ systemctl stop apache2
 systemctl restart apache2
 systemctl status apache2
 ```
+
+> **⚡ CachyOS (Arch):** команди `service` **не існує** взагалі — це специфічна для Debian-родини обгортка (`/usr/sbin/service`, частина пакета `sysvinit-utils`/`init-system-helpers`). Arch і CachyOS не мають цього шару сумісності, тому там працює тільки `systemctl`:
+> ```bash
+> sudo systemctl start apache      # зверни увагу на назву пакета нижче!
+> sudo systemctl status apache
+> ```
+> Це не "інша команда для того самого", а показник того, що CachyOS ніколи не підтримував SysV-init та інструменти сумісності з ним — там з першого дня тільки systemd.
 
 Вони роблять одне й те саме. `systemctl` дає детальніший вивід про статус і є напрямком розвитку, тому варто вивчити обидва способи, але за замовчуванням використовувати `systemctl`.
 
@@ -66,10 +74,18 @@ systemctl disable apache2
 Apache — один із найпоширеніших веб-серверів у світі. Запустивши його, ти перетворюєш машину на веб-сервер.
 
 ```bash
+# 🐧 Debian/Kali
 service apache2 start
 ```
 
-Коли він запущений, відкрий браузер і перейди на `http://localhost`. Ти побачиш сторінку Apache за замовчуванням. Ця сторінка — просто файл у `/var/www/html/index.html`. Замінюй його своїм вмістом, і саме він буде віддаватися.
+> **⚡ CachyOS (Arch):** пакет називається просто `apache` (без `2` — Arch не тримає стару версію в назві), а сервіс запускається через systemd:
+> ```bash
+> sudo pacman -S apache
+> sudo systemctl start httpd    # ім'я юніта — httpd, а не apache!
+> ```
+> Це варто запам'ятати окремо: назва пакета (`apache`) і назва systemd-юніта (`httpd`) на Arch не збігаються — історично так склалося з апстріму Apache HTTP Server.
+
+Коли він запущений, відкрий браузер і перейди на `http://localhost`. Ти побачиш сторінку Apache за замовчуванням. Ця сторінка — просто файл у `/var/www/html/index.html` (шлях однаковий на обох дистрибутивах). Замінюй його своїм вмістом, і саме він буде віддаватися.
 
 ```bash
 echo "<h1>My custom page</h1>" > /var/www/html/index.html
@@ -96,8 +112,16 @@ ssh username@192.168.1.50
 **Запуск SSH-сервісу на своїй машині** (щоб інші могли підключатися до тебе):
 
 ```bash
+# 🐧 Debian/Kali
 service ssh start
 ```
+
+> **⚡ CachyOS (Arch):** пакет називається `openssh`, а systemd-юніт — `sshd`:
+> ```bash
+> sudo pacman -S openssh
+> sudo systemctl start sshd
+> sudo systemctl enable sshd   # щоб запускався при завантаженні
+> ```
 
 **Підключення через конкретний порт** (якщо сервер не на стандартному 22):
 
@@ -126,8 +150,18 @@ MySQL — це сервер реляційних баз даних. Він зб�
 **Запуск MySQL:**
 
 ```bash
+# 🐧 Debian/Kali
 service mysql start
 ```
+
+> **⚡ CachyOS (Arch):** тут різниця не лише в команді, а й у самому продукті. Arch давно офіційно замінив оригінальний Oracle MySQL пакетом **MariaDB** (форк MySQL, розроблений спільнотою після викупу MySQL компанією Oracle) — це стандартна практика у більшості сучасних дистрибутивів, включно з деякими новими версіями Debian:
+> ```bash
+> sudo pacman -S mariadb
+> sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql   # разова ініціалізація
+> sudo systemctl start mariadb
+> sudo systemctl enable mariadb
+> ```
+> Команда клієнта для входу все одно називається `mysql` (MariaDB зберігає сумісність команд і протоколу з MySQL), тому нижче все працює без змін.
 
 **Вхід до MySQL shell:**
 
@@ -159,8 +193,16 @@ SELECT * FROM users;      -- вивести все з таблиці users
 PostgreSQL — ще одна база даних, схожа на MySQL. Причина, чому вона варта згадки тут окремо, полягає в тому, що **Metasploit** — основний фреймворк для експлойтів, який ти будеш використовувати пізніше в цьому курсі — використовує PostgreSQL як бекенд для зберігання результатів сканування та даних сесій.
 
 ```bash
+# 🐧 Debian/Kali
 service postgresql start
 ```
+
+> **⚡ CachyOS (Arch):** `sudo pacman -S postgresql`, потім разова ініціалізація кластера бази (на Arch це не робиться автоматично при встановленні пакета, на відміну від Debian):
+> ```bash
+> sudo -iu postgres initdb -D /var/lib/postgres/data
+> sudo systemctl start postgresql
+> sudo systemctl enable postgresql
+> ```
 
 Ти не будеш взаємодіяти з ним багато. Просто знай, що коли запускаєш Metasploit, він скаже, що база не підключена, якщо PostgreSQL ще не запущений.
 
@@ -202,18 +244,22 @@ Kali Linux постачається з паролями за замовчува�
 
 ## Довідка по командам
 
-| Команда | Що робить |
-|---|---|
-| `service name start/stop/restart` | Керування сервісом (старий синтаксис) |
-| `systemctl start/stop/restart name` | Керування сервісом (сучасний синтаксис) |
-| `systemctl status name` | Перевірити, чи працює сервіс |
-| `systemctl enable name` | Запускати сервіс автоматично при завантаженні |
-| `systemctl disable name` | Вимкнути автозапуск |
-| `systemctl list-units --type=service` | Показати всі активні сервіси |
-| `ssh user@ip` | Підключитися до віддаленої машини через SSH |
-| `scp file user@ip:/path` | Скопіювати файл на віддалену машину |
-| `mysql -u root -p` | Увійти в MySQL shell |
-| `ss -tlnp` | Показати відкриті порти і слухаючі сервіси |
+| Дія | 🐧 Debian/Kali | ⚡ CachyOS (Arch) |
+|---|---|---|
+| Керування сервісом (старий синтаксис) | `service name start/stop/restart` | не існує |
+| Керування сервісом (сучасний синтаксис) | `systemctl start/stop/restart name` | те саме |
+| Перевірити, чи працює сервіс | `systemctl status name` | те саме |
+| Встановити Apache | `apt install apache2` (юніт: `apache2`) | `pacman -S apache` (юніт: **`httpd`**) |
+| Встановити SSH-сервер | `apt install openssh-server` (юніт: `ssh`) | `pacman -S openssh` (юніт: **`sshd`**) |
+| Встановити MySQL-сумісну БД | `apt install mysql-server` | `pacman -S mariadb` (потрібна `mariadb-install-db`) |
+| Встановити PostgreSQL | `apt install postgresql` | `pacman -S postgresql` (потрібна `initdb`) |
+| Запускати сервіс при завантаженні | `systemctl enable name` | те саме |
+| Вимкнути автозапуск | `systemctl disable name` | те саме |
+| Показати всі активні сервіси | `systemctl list-units --type=service` | те саме |
+| Підключитися по SSH | `ssh user@ip` | те саме |
+| Скопіювати файл на віддалену машину | `scp file user@ip:/path` | те саме |
+| Увійти в MySQL/MariaDB shell | `mysql -u root -p` | те саме |
+| Показати відкриті порти | `ss -tlnp` | те саме |
 
 ---
 
@@ -235,11 +281,27 @@ Kali Linux постачається з паролями за замовчува�
 
 ## Практика
 
-- Запусти Apache через `service apache2 start`, потім відкрий браузер і перейди на `http://localhost`
+- Запусти Apache через `service apache2 start` (Debian/Kali) або `sudo systemctl start httpd` (CachyOS), потім відкрий браузер і перейди на `http://localhost`
 - Замінити вміст `/var/www/html/index.html` на щось кастомне і оновити сторінку
-- Запусти MySQL і увійди через `mysql -u root -p`, потім виконай `SHOW DATABASES;`
+- Запусти MySQL/MariaDB і увійди через `mysql -u root -p`, потім виконай `SHOW DATABASES;`
 - Виконай `ss -tlnp` і подивись, які порти відкриті після запуску сервісів
 - Зупини обидва сервіси, коли закінчиш — не лишай працювати те, що не треба
+
+---
+
+## 🔄 Сучасний погляд (нотатки з практики системного адміністрування)
+
+**`service` — це лише сумісність, а не паралельний стандарт.** Команда `service` в Debian/Kali — це тонка обгортка, яка під капотом просто викликає `systemctl`, якщо система вже на systemd (а вона на systemd у всіх сучасних Debian/Kali). Тобто фактично на Kali сьогодні `service apache2 start` і `systemctl start apache2` виконують один і той самий шлях коду — `service` існує тільки заради зворотної сумісності зі старими інструкціями та звичками адміністраторів, які вивчали ще SysV init. CachyOS ніколи не мав SysV init, тому там цей шар сумісності просто не було сенсу створювати.
+
+**Різниця в назвах пакетів і юнітів — не дрібниця, а типова причина "чому не працює" у міждистрибутивних інструкціях.** Це загальна закономірність, вартувата запам'ятати як принцип, а не список винятків:
+
+| Що | Debian/Kali | Arch/CachyOS | Чому так історично склалось |
+|---|---|---|---|
+| Веб-сервер Apache | пакет `apache2`, юніт `apache2` | пакет `apache`, юніт `httpd` | Debian додав `2` в назву під час переходу з Apache 1.3 на 2.x і залишив це в назві пакета; Arch завжди йменував за назвою бінарника апстріму (`httpd`) |
+| SSH-сервер | пакет `openssh-server`, юніт `ssh` | пакет `openssh`, юніт `sshd` | Різні конвенції найменування юнітів у дистрибутивних systemd-файлах |
+| MySQL-сумісна БД | пакет `mysql-server` (або форк `mariadb-server`) | пакет `mariadb` | Oracle зробив MySQL менш відкритим після викупу в 2010, спільнота Arch (як і багато інших) перейшла на MariaDB як дефолт |
+
+**Практичний висновок для реальної роботи інженером:** коли переносиш продакшн-конфігурацію або bash-скрипт автоматизації з Debian-сервера на Arch-based (чи навпаки), ніколи не покладайся на те, що назва пакета або systemd-юніта збігається — завжди перевіряй `systemctl list-unit-files | grep -i <service>` на цільовій системі перед тим, як writing deployment-скрипт. Саме цей клас помилок ("сервіс встановився, але `systemctl start apache2` каже unit not found, бо юніт зветься httpd") — одна з найчастіших причин зламаного CI/CD при міграції між дистрибутивами, і про неї рідко пишуть у базовій документації, бо кожен окремий дистрибутив вважає свою назву "очевидною".
 
 ---
 
