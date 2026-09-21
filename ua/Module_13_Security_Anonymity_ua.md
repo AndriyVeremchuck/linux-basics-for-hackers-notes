@@ -48,9 +48,12 @@ Tor маршрутизує твій трафік через ланцюжок і�
 **Як користуватися в Kali:**
 
 ```bash
+# 🐧 Debian/Kali
 apt install tor
 service tor start
 ```
+
+> **⚡ CachyOS (Arch):** `sudo pacman -S tor` + `sudo systemctl start tor` (немає команди `service`). Конфіг та шлях `/etc/tor/torrc` однакові на обох дистрибутивах.
 
 Або завантаж Tor Browser — це попередньо налаштований Firefox, який автоматично маршрутизує весь трафік через Tor.
 
@@ -150,12 +153,12 @@ VPN (Virtual Private Network) створює зашифрований тунел
 
 ## Довідка по командам
 
-| Команда | Що робить |
-|---|---|
-| `service tor start` | Запустити сервіс Tor |
-| `proxychains [command]` | Запускати будь-яку команду через ланцюжок проксі |
-| `nano /etc/proxychains.conf` | Редагувати конфіг proxychains |
-| `curl ifconfig.me` | Перевірити, яку IP-адресу бачить інтернет |
+| Команда | Що робить | ⚡ CachyOS |
+|---|---|---|
+| `service tor start` | Запустити сервіс Tor | `systemctl start tor` |
+| `proxychains [command]` | Запускати будь-яку команду через ланцюжок проксі | те саме |
+| `nano /etc/proxychains.conf` | Редагувати конфіг proxychains | той самий шлях |
+| `curl ifconfig.me` | Перевірити, яку IP-адресу бачить інтернет | те саме |
 | `proxychains curl ifconfig.me` | Перевірити свою "зовнішню" IP через proxychains |
 
 ---
