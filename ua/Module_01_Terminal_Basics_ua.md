@@ -218,30 +218,49 @@ cd DESKTOP     помилка — такого файлу немає
 
 ## Довідка по командам
 
-| Command | What it does | Example |
+| Команда | Що робить | Приклад |
 |---|---|---|
-| `pwd` | Shows current location | `pwd` |
-| `ls` | Lists files in current folder | `ls` |
-| `ls -la` | Lists everything including hidden files | `ls -la` |
-| `cd /path` | Go to a folder | `cd /etc` |
-| `cd ..` | Go up one level | `cd ..` |
-| `cd ~` | Go to home folder | `cd ~` |
-| `man cmd` | Open the manual for a command | `man ls` |
-| `whoami` | Shows which user you are | `whoami` |
-| `locate file` | Find a file anywhere on the system | `locate nmap` |
-| `updatedb` | Refresh the locate database | `updatedb` |
+| `pwd` | Показує поточне місцезнаходження | `pwd` |
+| `ls` | Виводить список файлів у поточній папці | `ls` |
+| `ls -la` | Виводить усе, включно з прихованими файлами | `ls -la` |
+| `cd /path` | Перейти до папки | `cd /etc` |
+| `cd ..` | Піднятися на один рівень вгору | `cd ..` |
+| `cd ~` | Перейти в домашню папку | `cd ~` |
+| `man cmd` | Відкрити довідку по команді | `man ls` |
+| `whoami` | Показує, під яким користувачем ти працюєш | `whoami` |
+| `locate file` | Знайти файл будь-де в системі | `locate nmap` |
+| `updatedb` | Оновити базу даних для `locate` | `updatedb` |
 
 ---
 
-## Practice
+## Практика
 
-- Open the terminal and run `pwd` — see where you start
-- Run `cd /` then `ls` — you're at the root, look at what's there
-- Run `cd ~` then `ls -la` — spot the hidden files starting with `.`
-- Run `man nmap`, scroll through it, and exit with `q`
+- Відкрий термінал і виконай `pwd` — подивись, звідки ти стартуєш
+- Виконай `cd /`, потім `ls` — ти в корені, подивись, що там є
+- Виконай `cd ~`, потім `ls -la` — знайди приховані файли, що починаються з крапки
+- Виконай `man nmap`, погортай і вийди через `q`
 
-The goal isn't to memorize all of this right now. It's to get your hands moving and start feeling comfortable in the terminal. The commands will stick on their own the more you use them.
+Мета не в тому, щоб зараз усе це запам'ятати. Мета — почати рухатися руками й відчути себе комфортно в терміналі. Команди самі закріпляться, чим більше ти ними користуєшся.
 
 ---
 
-*Up next: Module 2 — Text Manipulation*
+## 🔄 Сучасний погляд (нотатки з практики системного адміністрування)
+
+Команди вище — це основа, яку варто знати назубок незалежно від дистрибутива й епохи, вони нікуди не подінуться. Але за останні роки з'явився пласт "сучасних" замін класичних утиліт — написаних на Rust/Go, набагато швидших і зручніших для щоденної інтерактивної роботи. Знати про них варто, навіть якщо базові команди залишаються обов'язковими (бо саме вони гарантовано є на будь-якому сервері, куди тебе пустять по SSH):
+
+| Класична утиліта | Сучасна заміна | Чим краща |
+|---|---|---|
+| `ls` / `ls -la` | **`eza`** (форк застарілого `exa`) | Кольоровий вивід, показує git-статус файлів, вбудована деревовидна структура (`eza --tree`) |
+| `cat` | **`bat`** | Підсвітка синтаксису, номери рядків, автоматичний виклик пейджера для довгих файлів |
+| `find` | **`fd`** | Простіший і швидший синтаксис, за замовчуванням ігнорує `.gitignore` та приховані файли |
+| `grep` (тема наступного модуля) | **`ripgrep` (`rg`)** | На порядки швидший на великих деревах коду, розуміє `.gitignore` |
+| ручний пошук в історії команд | **`fzf`** | Інтерактивний нечіткий (fuzzy) пошук — `Ctrl+R` з fzf шукає в історії набагато зручніше, ніж стандартний reverse-i-search |
+
+Встановлення на Kali/Debian: `sudo apt install eza bat fd-find ripgrep fzf`
+Встановлення на CachyOS/Arch: `sudo pacman -S eza bat fd ripgrep fzf`
+
+**Практичний висновок:** для написання портативних скриптів і для будь-якої машини, де невідомо, що встановлено, — використовуй `ls`, `cat`, `find`, `grep`. Це те, що буде завжди. Але для власного щоденного інтерактивного термінала — постав ці сучасні заміни й налаштуй aliases (`alias ls='eza'`, `alias cat='bat'` в `~/.bashrc`), це реально економить час щодня.
+
+---
+
+*Далі: Модуль 2 — Обробка тексту*
