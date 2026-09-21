@@ -1,58 +1,60 @@
-# Linux Basics for Hackers — Course
+# Linux Basics for Hackers — Курс
 
-A structured course built from personal study notes of the book *Linux Basics for Hackers* by OccupyTheWeb. Each module breaks down the core concepts, commands, and practical examples in plain English — straightforward enough for beginners, detailed enough to actually be useful.
+Структурований курс, побудований на основі особистих навчальних нотаток до книги *Linux Basics for Hackers* автора OccupyTheWeb. Кожен модуль розкладає основні концепції, команди та практичні приклади простою мовою — достатньо просто для початківців і достатньо детально, щоб бути справді корисним.
 
 ---
 
-## Modules
+## Модулі
 
-| # | Topic |
+| # | Тема |
 |---|---|
 | i  | [Linux Basics For Hackers PDF.](Linux.pdf) |
-| 00 | [Getting Started & Setting Up Your Lab](Module_00_Getting_Started.md) |
-| 01 | [The Basics of the Terminal](Module_01_Terminal_Basics.md) |
-| 02 | [Text Manipulation](Module_02_Text_Manipulation.md) |
-| 03 | [Managing Networks](Module_03_Managing_Networks.md) |
-| 04 | [Software Management](Module_04_Software_Management.md) |
-| 05 | [File & Directory Permissions](Module_05_Permissions.md) |
-| 06 | [Process Management](Module_06_Process_Management.md) |
-| 07 | [Environment Variables](Module_07_Environment_Variables.md) |
-| 08 | [Bash Scripting](Module_08_Bash_Scripting.md) |
-| 09 | [Archiving & Compression](Module_09_Archiving_Compression.md) |
-| 10 | [Filesystem & Storage](Module_10_Filesystem_Storage.md) |
-| 11 | [The Logging System](Module_11_Logging_System.md) |
-| 12 | [Using & Abusing Services](Module_12_Using_Abusing_Services.md) |
-| 13 | [Security & Anonymity](Module_13_Security_Anonymity.md) |
-| 14 | [Wireless Networking](Module_14_Wireless_Networking.md) |
-| 15 | [The Kernel & Loadable Kernel Modules](Module_15_Kernel_LKMs.md) |
-| 16 | [Automation & Scheduled Jobs](Module_16_Automation_Jobs.md) |
-| 17 | [Python Scripting](Module_17_Python_Scripting.md) |
+| 00 | [Початок роботи та налаштування лабораторії](ua/Module_00_Getting_Started_ua.md) |
+| 01 | [Основи терміналу](ua/Module_01_Terminal_Basics_ua.md) |
+| 02 | [Робота з текстом](ua/Module_02_Text_Manipulation_ua.md) |
+| 03 | [Керування мережами](ua/Module_03_Managing_Networks_ua.md) |
+| 04 | [Керування програмним забезпеченням](ua/Module_04_Software_Management_ua.md) |
+| 05 | [Права доступу до файлів та каталогів](ua/Module_05_Permissions_ua.md) |
+| 06 | [Керування процесами](ua/Module_06_Process_Management_ua.md) |
+| 07 | [Змінні середовища](ua/Module_07_Environment_Variables_ua.md) |
+| 08 | [Bash-скриптування](ua/Module_08_Bash_Scripting_ua.md) |
+| 09 | [Архіви та стиснення](ua/Module_09_Archiving_Compression_ua.md) |
+| 10 | [Файлова система та накопичувачі](ua/Module_10_Filesystem_Storage_ua.md) |
+| 11 | [Система журналювання](ua/Module_11_Logging_System_ua.md) |
+| 12 | [Використання та зловживання сервісами](ua/Module_12_Using_Abusing_Services_ua.md) |
+| 13 | [Безпека та анонімність](ua/Module_13_Security_Anonymity_ua.md) |
+| 14 | [Бездротові мережі](ua/Module_14_Wireless_Networking_ua.md) |
+| 15 | [Ядро Linux і завантажувані модулі ядра](ua/Module_15_Kernel_LKMs_ua.md) |
+| 16 | [Автоматизація та заплановані задачі](ua/Module_16_Automation_Jobs_ua.md) |
+| 17 | [Python-скриптування](ua/Module_17_Python_Scripting_ua.md) |
+
+Англомовні оригінали модулів доступні в папці [`eng/`](eng/README.md).
 
 ---
 
-## What's inside each module
+## Що є в кожному модулі
 
-- Plain English explanations of every concept
-- All key commands with examples
-- Quick reference tables
-- Diagrams where helpful
-- Practice exercises at the end
+- Пояснення кожної концепції простою мовою
+- Усі ключові команди з прикладами
+- Короткі довідкові таблиці
+- Схеми там, де це допомагає
+- Практичні завдання наприкінці
 
 ---
 
-## Requirements
+## Вимоги
 
-- [VirtualBox](https://www.virtualbox.org/) or any VM software
+- [VirtualBox](https://www.virtualbox.org/) або будь-яке інше ПЗ для віртуальних машин
 - [Kali Linux](https://www.kali.org/get-kali/) (64-bit)
 
 ---
 
-## Disclaimer
+## Застереження
 
-This course is for educational purposes only. Everything here should be practiced in your own lab environment. Never test on systems you don't own or have explicit permission to test.
+Цей курс призначений виключно для навчальних цілей. Усе, що тут описано, слід практикувати тільки у власному лабораторному середовищі. Ніколи не тестуй системи, якими ти не володієш або на тестування яких не маєш явного дозволу.
 
 ---
 
-## Book
+## Книга
 
-> *Linux Basics for Hackers* by OccupyTheWeb — No Starch Press
+> *Linux Basics for Hackers* автора OccupyTheWeb — No Starch Press
